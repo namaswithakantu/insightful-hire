@@ -20,7 +20,7 @@ export const Route = createFileRoute("/auth")({
 });
 
 function AuthPage() {
-  const { mode } = Route.useSearch();
+  const { mode } = Route.useSearch() as { mode: "signin" | "signup" | "forgot" };
   const nav = useNavigate();
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -69,11 +69,11 @@ function AuthPage() {
     }
   }
 
-  const titles = {
+  const titles: Record<"signin" | "signup" | "forgot", { h: string; sub: string }> = {
     signin: { h: "Welcome back", sub: "Sign in to continue your interviews." },
     signup: { h: "Create your account", sub: "Start practicing in under a minute." },
     forgot: { h: "Reset password", sub: "We'll email you a reset link." },
-  } as const;
+  };
 
   return (
     <div className="grid min-h-screen lg:grid-cols-2">

@@ -82,7 +82,7 @@ function FeedbackPage() {
               <ResponsiveContainer width="100%" height="100%">
                 <RadarChart data={radarData}>
                   <PolarGrid stroke="oklch(0.85 0 0)" />
-                  <PolarAngleAxis dataKey="axis" tick={{ fontSize: 11, fill: "oklch(0.45 0 0)", textTransform: "capitalize" }} />
+                  <PolarAngleAxis dataKey="axis" tick={{ fontSize: 11, fill: "oklch(0.45 0 0)" }} />
                   <PolarRadiusAxis angle={90} domain={[0, 100]} tick={false} axisLine={false} />
                   <Radar dataKey="value" stroke="oklch(0.12 0 0)" fill="oklch(0.12 0 0)" fillOpacity={0.15} strokeWidth={2} />
                 </RadarChart>
