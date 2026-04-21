@@ -14,16 +14,220 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      answers: {
+        Row: {
+          answer_text: string
+          clarity: number | null
+          correctness: number | null
+          created_at: string
+          depth: number | null
+          feedback: string | null
+          id: string
+          improvements: string[] | null
+          input_method: string
+          interview_id: string
+          missing_concepts: string[] | null
+          question_index: number
+          question_text: string
+          reasoning: number | null
+          score: number | null
+          user_id: string
+        }
+        Insert: {
+          answer_text: string
+          clarity?: number | null
+          correctness?: number | null
+          created_at?: string
+          depth?: number | null
+          feedback?: string | null
+          id?: string
+          improvements?: string[] | null
+          input_method?: string
+          interview_id: string
+          missing_concepts?: string[] | null
+          question_index: number
+          question_text: string
+          reasoning?: number | null
+          score?: number | null
+          user_id: string
+        }
+        Update: {
+          answer_text?: string
+          clarity?: number | null
+          correctness?: number | null
+          created_at?: string
+          depth?: number | null
+          feedback?: string | null
+          id?: string
+          improvements?: string[] | null
+          input_method?: string
+          interview_id?: string
+          missing_concepts?: string[] | null
+          question_index?: number
+          question_text?: string
+          reasoning?: number | null
+          score?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "answers_interview_id_fkey"
+            columns: ["interview_id"]
+            isOneToOne: false
+            referencedRelation: "interviews"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      interviews: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          id: string
+          overall_score: number | null
+          questions: Json
+          role: Database["public"]["Enums"]["interview_role"]
+          skill_scores: Json | null
+          started_at: string
+          status: Database["public"]["Enums"]["interview_status"]
+          strengths: string[] | null
+          user_id: string
+          weaknesses: string[] | null
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          overall_score?: number | null
+          questions?: Json
+          role: Database["public"]["Enums"]["interview_role"]
+          skill_scores?: Json | null
+          started_at?: string
+          status?: Database["public"]["Enums"]["interview_status"]
+          strengths?: string[] | null
+          user_id: string
+          weaknesses?: string[] | null
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          overall_score?: number | null
+          questions?: Json
+          role?: Database["public"]["Enums"]["interview_role"]
+          skill_scores?: Json | null
+          started_at?: string
+          status?: Database["public"]["Enums"]["interview_status"]
+          strengths?: string[] | null
+          user_id?: string
+          weaknesses?: string[] | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name: string
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      violations: {
+        Row: {
+          created_at: string
+          details: string | null
+          id: string
+          interview_id: string
+          type: Database["public"]["Enums"]["violation_type"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          details?: string | null
+          id?: string
+          interview_id: string
+          type: Database["public"]["Enums"]["violation_type"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          details?: string | null
+          id?: string
+          interview_id?: string
+          type?: Database["public"]["Enums"]["violation_type"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "violations_interview_id_fkey"
+            columns: ["interview_id"]
+            isOneToOne: false
+            referencedRelation: "interviews"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "candidate" | "recruiter" | "admin"
+      interview_role: "sde" | "data_analyst" | "ml_engineer"
+      interview_status: "in_progress" | "completed" | "abandoned"
+      violation_type:
+        | "tab_switch"
+        | "window_blur"
+        | "multiple_faces"
+        | "no_face"
+        | "looking_away"
+        | "suspicious"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +354,18 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["candidate", "recruiter", "admin"],
+      interview_role: ["sde", "data_analyst", "ml_engineer"],
+      interview_status: ["in_progress", "completed", "abandoned"],
+      violation_type: [
+        "tab_switch",
+        "window_blur",
+        "multiple_faces",
+        "no_face",
+        "looking_away",
+        "suspicious",
+      ],
+    },
   },
 } as const
