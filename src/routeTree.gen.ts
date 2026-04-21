@@ -10,13 +10,32 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RolesRouteImport } from './routes/roles'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as RecruiterRouteImport } from './routes/recruiter'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as InterviewRouteImport } from './routes/interview.'
+import { Route as FeedbackRouteImport } from './routes/feedback.'
 
 const RolesRoute = RolesRouteImport.update({
   id: '/roles',
   path: '/roles',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecruiterRoute = RecruiterRouteImport.update({
+  id: '/recruiter',
+  path: '/recruiter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -34,38 +53,84 @@ const InterviewRoute = InterviewRouteImport.update({
   path: '/interview/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FeedbackRoute = FeedbackRouteImport.update({
+  id: '/feedback/',
+  path: '/feedback/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/dashboard': typeof DashboardRoute
+  '/recruiter': typeof RecruiterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/roles': typeof RolesRoute
+  '/feedback/': typeof FeedbackRoute
   '/interview/': typeof InterviewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/dashboard': typeof DashboardRoute
+  '/recruiter': typeof RecruiterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/roles': typeof RolesRoute
+  '/feedback': typeof FeedbackRoute
   '/interview': typeof InterviewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/dashboard': typeof DashboardRoute
+  '/recruiter': typeof RecruiterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/roles': typeof RolesRoute
+  '/feedback/': typeof FeedbackRoute
   '/interview/': typeof InterviewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/roles' | '/interview/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/recruiter'
+    | '/reset-password'
+    | '/roles'
+    | '/feedback/'
+    | '/interview/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/roles' | '/interview'
-  id: '__root__' | '/' | '/auth' | '/roles' | '/interview/'
+  to:
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/recruiter'
+    | '/reset-password'
+    | '/roles'
+    | '/feedback'
+    | '/interview'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/recruiter'
+    | '/reset-password'
+    | '/roles'
+    | '/feedback/'
+    | '/interview/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
+  DashboardRoute: typeof DashboardRoute
+  RecruiterRoute: typeof RecruiterRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   RolesRoute: typeof RolesRoute
+  FeedbackRoute: typeof FeedbackRoute
   InterviewRoute: typeof InterviewRoute
 }
 
@@ -76,6 +141,27 @@ declare module '@tanstack/react-router' {
       path: '/roles'
       fullPath: '/roles'
       preLoaderRoute: typeof RolesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recruiter': {
+      id: '/recruiter'
+      path: '/recruiter'
+      fullPath: '/recruiter'
+      preLoaderRoute: typeof RecruiterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -99,13 +185,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InterviewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/feedback/': {
+      id: '/feedback/'
+      path: '/feedback'
+      fullPath: '/feedback/'
+      preLoaderRoute: typeof FeedbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
+  DashboardRoute: DashboardRoute,
+  RecruiterRoute: RecruiterRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   RolesRoute: RolesRoute,
+  FeedbackRoute: FeedbackRoute,
   InterviewRoute: InterviewRoute,
 }
 export const routeTree = rootRouteImport
