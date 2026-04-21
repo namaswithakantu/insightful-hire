@@ -11,7 +11,7 @@ import { Brain, Loader2, ShieldAlert, Clock, ArrowRight, Flag } from "lucide-rea
 import { ROLE_META, VIOLATION_LABEL, type Question, type ViolationType } from "@/lib/types";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/interview/")({
+export const Route = createFileRoute("/interview/$id")({
   component: InterviewRoom,
   head: () => ({ meta: [{ title: "Interview in progress — Lucid" }] }),
 });

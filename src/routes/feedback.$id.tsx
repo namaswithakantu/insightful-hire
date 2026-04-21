@@ -8,7 +8,7 @@ import { ArrowRight, Loader2, ShieldAlert, CheckCircle2, AlertCircle } from "luc
 import { ROLE_META, VIOLATION_LABEL } from "@/lib/types";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer, PolarRadiusAxis } from "recharts";
 
-export const Route = createFileRoute("/feedback/")({
+export const Route = createFileRoute("/feedback/$id")({
   component: FeedbackPage,
   head: () => ({ meta: [{ title: "Interview feedback — Lucid" }] }),
 });
