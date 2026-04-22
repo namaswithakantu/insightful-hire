@@ -80,7 +80,7 @@ function RecruiterPage() {
     } else if (sortBy === "name") {
       list = [...list].sort((a, b) => (profileById[a.user_id]?.full_name ?? "").localeCompare(profileById[b.user_id]?.full_name ?? ""));
     } else if (skillFilter !== "all") {
-      list = [...list].sort((a, b) => Number((b.skill_scores ?? {})[skillFilter] ?? 0) - Number((a.skill_scores ?? {})[skillFilter] ?? 0));
+      list = [...list].sort((a: any, b: any) => Number((b.skill_scores ?? {})[skillFilter] ?? 0) - Number((a.skill_scores ?? {})[skillFilter] ?? 0));
     }
     return list;
   }, [interviews, filterRole, minScore, search, sortBy, skillFilter, profileById]);
