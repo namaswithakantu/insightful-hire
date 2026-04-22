@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate, redirect, Link } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
@@ -28,6 +28,7 @@ function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+  const [accountType, setAccountType] = useState<"candidate" | "recruiter">("candidate");
 
   if (user) {
     setTimeout(() => nav({ to: "/dashboard" }), 0);
@@ -44,12 +45,12 @@ function AuthPage() {
           email, password,
           options: {
             emailRedirectTo: `${window.location.origin}/dashboard`,
-            data: { full_name: name },
+            data: { full_name: name, account_type: accountType },
           },
         });
         if (error) throw error;
-        toast.success("Account created — welcome!");
-        nav({ to: "/roles" });
+        toast.success(`Account created — welcome${accountType === "recruiter" ? ", recruiter" : ""}!`);
+        nav({ to: accountType === "recruiter" ? "/recruiter" : "/roles" });
       } else if (mode === "forgot") {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
           redirectTo: `${window.location.origin}/reset-password`,
@@ -116,10 +117,27 @@ function AuthPage() {
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-4">
             {mode === "signup" && (
+              <>
+                <div className="space-y-2">
+                  <Label>I am signing up as</Label>
+                  <div className="grid grid-cols-2 gap-2 rounded-lg border border-border bg-muted/40 p-1">
+                    {(["candidate", "recruiter"] as const).map((t) => (
+                      <button
+                        type="button"
+                        key={t}
+                        onClick={() => setAccountType(t)}
+                        className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${accountType === t ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"}`}
+                      >
+                        {t === "candidate" ? "Candidate" : "Recruiter"}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               <div className="space-y-2">
                 <Label htmlFor="name">Full name</Label>
                 <Input id="name" value={name} onChange={(e) => setName(e.target.value)} required maxLength={100} />
               </div>
+              </>
             )}
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
