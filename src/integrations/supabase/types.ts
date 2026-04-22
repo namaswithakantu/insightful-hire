@@ -79,6 +79,42 @@ export type Database = {
           },
         ]
       }
+      hiring_decisions: {
+        Row: {
+          ai_summary: Json | null
+          candidate_id: string
+          created_at: string
+          id: string
+          interview_id: string
+          rationale: string | null
+          recommendation: string
+          recruiter_id: string
+          updated_at: string
+        }
+        Insert: {
+          ai_summary?: Json | null
+          candidate_id: string
+          created_at?: string
+          id?: string
+          interview_id: string
+          rationale?: string | null
+          recommendation: string
+          recruiter_id: string
+          updated_at?: string
+        }
+        Update: {
+          ai_summary?: Json | null
+          candidate_id?: string
+          created_at?: string
+          id?: string
+          interview_id?: string
+          rationale?: string | null
+          recommendation?: string
+          recruiter_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       interviews: {
         Row: {
           completed_at: string | null
