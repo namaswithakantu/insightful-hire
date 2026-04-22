@@ -15,8 +15,10 @@ import { Route as RecruiterRouteImport } from './routes/recruiter'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RecruiterCompareRouteImport } from './routes/recruiter.compare'
 import { Route as InterviewIdRouteImport } from './routes/interview.$id'
 import { Route as FeedbackIdRouteImport } from './routes/feedback.$id'
+import { Route as RecruiterCandidateIdRouteImport } from './routes/recruiter.candidate.$id'
 
 const RolesRoute = RolesRouteImport.update({
   id: '/roles',
@@ -48,6 +50,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RecruiterCompareRoute = RecruiterCompareRouteImport.update({
+  id: '/compare',
+  path: '/compare',
+  getParentRoute: () => RecruiterRoute,
+} as any)
 const InterviewIdRoute = InterviewIdRouteImport.update({
   id: '/interview/$id',
   path: '/interview/$id',
@@ -58,37 +65,48 @@ const FeedbackIdRoute = FeedbackIdRouteImport.update({
   path: '/feedback/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RecruiterCandidateIdRoute = RecruiterCandidateIdRouteImport.update({
+  id: '/candidate/$id',
+  path: '/candidate/$id',
+  getParentRoute: () => RecruiterRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
-  '/recruiter': typeof RecruiterRoute
+  '/recruiter': typeof RecruiterRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/roles': typeof RolesRoute
   '/feedback/$id': typeof FeedbackIdRoute
   '/interview/$id': typeof InterviewIdRoute
+  '/recruiter/compare': typeof RecruiterCompareRoute
+  '/recruiter/candidate/$id': typeof RecruiterCandidateIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
-  '/recruiter': typeof RecruiterRoute
+  '/recruiter': typeof RecruiterRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/roles': typeof RolesRoute
   '/feedback/$id': typeof FeedbackIdRoute
   '/interview/$id': typeof InterviewIdRoute
+  '/recruiter/compare': typeof RecruiterCompareRoute
+  '/recruiter/candidate/$id': typeof RecruiterCandidateIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/dashboard': typeof DashboardRoute
-  '/recruiter': typeof RecruiterRoute
+  '/recruiter': typeof RecruiterRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/roles': typeof RolesRoute
   '/feedback/$id': typeof FeedbackIdRoute
   '/interview/$id': typeof InterviewIdRoute
+  '/recruiter/compare': typeof RecruiterCompareRoute
+  '/recruiter/candidate/$id': typeof RecruiterCandidateIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -101,6 +119,8 @@ export interface FileRouteTypes {
     | '/roles'
     | '/feedback/$id'
     | '/interview/$id'
+    | '/recruiter/compare'
+    | '/recruiter/candidate/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -111,6 +131,8 @@ export interface FileRouteTypes {
     | '/roles'
     | '/feedback/$id'
     | '/interview/$id'
+    | '/recruiter/compare'
+    | '/recruiter/candidate/$id'
   id:
     | '__root__'
     | '/'
@@ -121,13 +143,15 @@ export interface FileRouteTypes {
     | '/roles'
     | '/feedback/$id'
     | '/interview/$id'
+    | '/recruiter/compare'
+    | '/recruiter/candidate/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
   DashboardRoute: typeof DashboardRoute
-  RecruiterRoute: typeof RecruiterRoute
+  RecruiterRoute: typeof RecruiterRouteWithChildren
   ResetPasswordRoute: typeof ResetPasswordRoute
   RolesRoute: typeof RolesRoute
   FeedbackIdRoute: typeof FeedbackIdRoute
@@ -178,6 +202,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/recruiter/compare': {
+      id: '/recruiter/compare'
+      path: '/compare'
+      fullPath: '/recruiter/compare'
+      preLoaderRoute: typeof RecruiterCompareRouteImport
+      parentRoute: typeof RecruiterRoute
+    }
     '/interview/$id': {
       id: '/interview/$id'
       path: '/interview/$id'
@@ -192,14 +223,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FeedbackIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/recruiter/candidate/$id': {
+      id: '/recruiter/candidate/$id'
+      path: '/candidate/$id'
+      fullPath: '/recruiter/candidate/$id'
+      preLoaderRoute: typeof RecruiterCandidateIdRouteImport
+      parentRoute: typeof RecruiterRoute
+    }
   }
 }
+
+interface RecruiterRouteChildren {
+  RecruiterCompareRoute: typeof RecruiterCompareRoute
+  RecruiterCandidateIdRoute: typeof RecruiterCandidateIdRoute
+}
+
+const RecruiterRouteChildren: RecruiterRouteChildren = {
+  RecruiterCompareRoute: RecruiterCompareRoute,
+  RecruiterCandidateIdRoute: RecruiterCandidateIdRoute,
+}
+
+const RecruiterRouteWithChildren = RecruiterRoute._addFileChildren(
+  RecruiterRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
   DashboardRoute: DashboardRoute,
-  RecruiterRoute: RecruiterRoute,
+  RecruiterRoute: RecruiterRouteWithChildren,
   ResetPasswordRoute: ResetPasswordRoute,
   RolesRoute: RolesRoute,
   FeedbackIdRoute: FeedbackIdRoute,
