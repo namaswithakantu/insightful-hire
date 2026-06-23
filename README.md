@@ -141,9 +141,9 @@ The dashboard enables users to:
 
 ## Team Members
 
-Byri Akshaya
-Kantu Namaswitha
-J.Spoorthy
+* Byri Akshaya
+* Kantu Namaswitha
+* J.Spoorthy
 
 ---
 
